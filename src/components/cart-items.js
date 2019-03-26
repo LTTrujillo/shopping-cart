@@ -5,8 +5,7 @@ import CartItem from './cart-item.js'
 class CartItems extends Component {
    
     render() {
-      
-  
+   
       return (
       <div className="container">
         <h1>Cart Items</h1>
@@ -17,6 +16,7 @@ class CartItems extends Component {
               <div className="col-md-2">Price</div>
               <div className="col-md-2">Quantity</div>
             </div>
+            
         </div>
         {this.props.cartItemsList.map((cartItem,idx) => {
           return (
@@ -24,10 +24,12 @@ class CartItems extends Component {
               key={idx}
               product={cartItem.product.name} 
               quantity={cartItem.quantity}
-              price={cartItem.product.price} />
+              price={cartItem.product.price}
+               />
           )
         })}
         </div>
+        
       </div>
       )
     }

@@ -25,14 +25,16 @@ class App extends Component {
         id: 0,
         quantity: 0,
         price: 0,
-        total: 0
-      }
-      
+        total: [],
+        finalTotal: 0
+        
+      }    
   }
 
-  addQuantity = (e) => this.setState({quantity: e.target.value})
-
-
+  addQuantity = (e) => this.setState({quantity: +e.target.value})
+  
+ 
+ 
   addName = (e) => {
     e.preventDefault()
     this.setState({
@@ -41,44 +43,45 @@ class App extends Component {
       let selectedItem = this.state.products.filter(item => item.name === e.target.value)
         this.setState({
           price: selectedItem[0].priceInCents/100,
-          id : selectedItem[0].id
+          id : selectedItem[0].id,
         })
     }
-
-
-
-
-
+  
   addItem = (e) => {
     e.preventDefault()
+    let newTotal = 0
     let newItem = {
       product: { 
         id: this.state.id,
         name: this.state.name,
-        price: this.state.price * this.state.quantity
+        price: this.state.price * this.state.quantity,
+        
       }, 
-      quantity: this.state.quantity
+      quantity: this.state.quantity,
+    }
+    this.state.total.push(newItem.product.price)
+    for(let i = 0; i < this.state.total.length; i++) {
+      newTotal += this.state.total[i]
+      
     }
     this.setState({
-      cartList: [newItem, ...this.state.cartList]
+      cartList: [newItem, ...this.state.cartList],
+      finalTotal: newTotal.toFixed(2)
     })
-}
-
-
-
-
-
+  }
+ 
   render() {
- 
- 
+    console.log(this.state.total)
     return (
       <div>
         <CartHeader />
-        <CartItems cartItemsList={this.state.cartList} />
-        <AddItem 
+        <CartItems cartItemsList={this.state.cartList} 
+                    />
+        <AddItem
+          cartList={this.state.cartList} 
           products={this.state.products} 
-          addQuantity={this.addQuantity} 
-          total={this.state.total}
+          addQuantity={this.addQuantity}
+          finalTotal={this.state.finalTotal}
           addName={this.addName}  
           addItem={this.addItem} />
         <CartFooter copyright={'© 2018'} />     
